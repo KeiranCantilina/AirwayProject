@@ -1,0 +1,9 @@
+class CloseApplicationEventFilter(qt.QWidget):
+  def eventFilter(self, object, event):
+    if event.type() == qt.QEvent.Close:
+      event.accept()
+      return True
+    return False
+
+filter = CloseApplicationEventFilter()
+slicer.util.mainWindow().installEventFilter(filter)

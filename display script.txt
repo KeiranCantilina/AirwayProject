@@ -1,0 +1,45 @@
+customLayout = """
+<layout type="horizontal" split="false">
+  <item>
+  <view class="vtkMRMLSliceNode" singletontag="Red">
+    <property name="orientation" action="default">Axial</property>
+    <property name="viewlabel" action="default">R</property>
+    <property name="viewcolor" action="default">#F34A33</property>
+  </view>
+  </item>
+  <item>
+  <view class="vtkMRMLSliceNode" singletontag="Green">
+    <property name="orientation" action="default">Coronal</property>
+    <property name="viewlabel" action="default">G</property>
+    <property name="viewcolor" action="default">#6EB04B</property>
+  </view>
+  </item>
+  <item>
+  <view class="vtkMRMLSliceNode" singletontag="Yellow">
+    <property name="orientation" action="default">Sagittal</property>
+    <property name="viewlabel" action="default">Y</property>
+    <property name="viewcolor" action="default">#EDD54C</property>
+  </view>
+  </item>
+</layout>
+ 
+ 
+"""
+ 
+# Built-in layout IDs are all below 100, so you can choose any large random number
+# for your custom layout ID.
+customLayoutId=501
+ 
+layoutManager = slicer.app.layoutManager()
+layoutManager.layoutLogic().GetLayoutNode().AddLayoutDescription(customLayoutId, customLayout)
+ 
+# Switch to the new custom layout
+layoutManager.setLayout(customLayoutId)
+
+viewToolBar = mainWindow().findChild("QToolBar", "ViewToolBar")
+layoutMenu = viewToolBar.widgetForAction(viewToolBar.actions()[0]).menu()
+layoutSwitchActionParent = layoutMenu  # use `layoutMenu` to add inside layout list, use `viewToolBar` to add next the standard layout list
+layoutSwitchAction = layoutSwitchActionParent.addAction("3-Side") # add inside layout list
+layoutSwitchAction.setData(customLayoutId)
+layoutSwitchAction.setIcon(qt.QIcon(":Icons/Go.png"))
+layoutSwitchAction.setToolTip("3 Slice Views side-by-side")
